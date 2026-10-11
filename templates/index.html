@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+    {% endif %}
+
+    <div class="summary">
+        <div class="summary-item">
+            <span>Pemasukan</span>
+            <strong class="income">{{ saldo['pemasukan'] }}</strong>
+        </div>
+        <div class="summary-item">
+            <span>Pengeluaran</span>
+            <strong class="expense">{{ saldo['pengeluaran'] }}</strong>
+        </div>
+        <div class="summary-item">
+            <span>Saldo</span>
+            <strong>{{ saldo['saldo'] }}</strong>
+        </div>
+    </div>
+
+    <form class="add-form" action="/" method="post">
+        <input type="date" name="tanggal" placeholder="Tanggal">
+        <label for="pilihan">Pilih jenis transaksi:</label>
+        <select name="pilihan" id="pilihan">
+            <option value="Pemasukan">Pemasukan</option>
+            <option value="Pengeluaran">Pengeluaran</option>
+        </select>
+        <input type="number" name="jumlah" placeholder="Jumlah">
+        <input type="text" name="kategori" placeholder="Kategori">
+        <input type="text" name="deskripsi" placeholder="Deskripsi">
+        <button type="submit">Tambah</button>
+    </form>
+
+    <ul class="transaction-list">
+        {% for transaction in transactions %}
+            <li class="transaction-item">
+                <span>{{ transaction[3] }} - {{ transaction[4] }} - {{ transaction[2] }} - {{ transaction[1] }} - {{ transaction[5] }}</span>
+                <div class="transaction-actions">
+                    <a href="{{ url_for('edit', transaction_id=transaction[0]) }}">Edit</a>
+                    <form action="{{ url_for('delete', transaction_id=transaction[0]) }}" method="post" style="display:inline;">
+                        <button type="submit">Hapus</button>
+                    </form>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+        
+</body>
+</html>

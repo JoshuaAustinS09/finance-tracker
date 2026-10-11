@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Edit Transaksi</h1>
+
+    {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+    {% endif %}
+
+    <form class="add-form" action="{{ url_for('edit', transaction_id=transaction[0]) }}" method="post">
+        <input type="date" name="tanggal" value="{{transaction[1]}}">
+        <select name="pilihan" id="pilihan">
+            <option value="Pemasukan" 
+            {% if transaction[3] == 'Pemasukan' %}
+                selected{% endif %}>Pemasukan</option>
+            <option value="Pengeluaran" 
+            {% if transaction[3] == 'Pengeluaran' %}
+                selected{% endif %}>Pengeluaran</option>
+        </select>
+        <input type="number" name="jumlah" value="{{transaction[2]}}">
+        <input type="text" name="kategori" value="{{transaction[4]}}">
+        <input type="text" name="deskripsi" value="{{transaction[5]}}">
+
+        <button type="submit">Simpan</button>
+    </form>
+</body>
+</html>
