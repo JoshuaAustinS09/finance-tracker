@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for
-from database import get_all_transactions, inserting_values, get_saldo, delete_transaction, update_transaction, get_transaction_by_id
+from database import get_all_transactions, inserting_values, get_saldo, delete_transaction, update_transaction, get_transaction_by_id, create_table_on_database
 
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def hello():
+    create_table_on_database()
     all_transactions = get_all_transactions()
     saldo = get_saldo()
 
